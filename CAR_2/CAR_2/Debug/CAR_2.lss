@@ -25,11 +25,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  10 .debug_frame  00000414  00000000  00000000  00004858  2**2
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    0000063a  00000000  00000000  00004c6c  2**0
+ 11 .debug_str    0000068f  00000000  00000000  00004c6c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    000017de  00000000  00000000  000052a6  2**0
+ 12 .debug_loc    000017de  00000000  00000000  000052fb  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_ranges 00000178  00000000  00000000  00006a84  2**0
+ 13 .debug_ranges 00000178  00000000  00000000  00006ad9  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -103,7 +103,7 @@ Disassembly of section .text:
 
 int main(void)
 {
-	softwareDelayMs(100);
+	softwareDelayMs(100);  //for stabilization
   92:	64 e6       	ldi	r22, 0x64	; 100
   94:	70 e0       	ldi	r23, 0x00	; 0
   96:	80 e0       	ldi	r24, 0x00	; 0
@@ -111,7 +111,7 @@ int main(void)
   9a:	0e 94 0c 04 	call	0x818	; 0x818 <softwareDelayMs>
     Car_SM_Init();
   9e:	0e 94 5a 00 	call	0xb4	; 0xb4 <Car_SM_Init>
-	softwareDelayMs(100);
+	softwareDelayMs(100); //for stabilization
   a2:	64 e6       	ldi	r22, 0x64	; 100
   a4:	70 e0       	ldi	r23, 0x00	; 0
   a6:	80 e0       	ldi	r24, 0x00	; 0
@@ -164,7 +164,7 @@ ERROR_STATUS Car_SM_Update(void)
 									   U8_state = Back_state; 
   d0:	ee 24       	eor	r14, r14
   d2:	e3 94       	inc	r14
-								   Steering_SteerCar(CAR_FORWARD, 40);
+								   Steering_SteerCar(CAR_FORWARD, 40); // go forward with speed 40%
 							   }else
 							   {
 								   if (U16_Distance<=50 && U16_Distance>30  )
@@ -176,12 +176,12 @@ ERROR_STATUS Car_SM_Update(void)
 
 							  
 			case Right_state: 
-								Steering_SteerCar(CAR_RIGHT, 40);
-								softwareDelayMs(80);
+								Steering_SteerCar(CAR_RIGHT, 40); // go right with speed 40%
+								softwareDelayMs(80); //for motor response
 								U8_state = Start_state;
   da:	00 e0       	ldi	r16, 0x00	; 0
   dc:	01 c0       	rjmp	.+2      	; 0xe0 <Car_SM_Update+0x20>
-								   Steering_SteerCar(CAR_FORWARD, 40);
+								   Steering_SteerCar(CAR_FORWARD, 40); // go forward with speed 40%
 							   }else
 							   {
 								   if (U16_Distance<=50 && U16_Distance>30  )
@@ -203,7 +203,7 @@ ERROR_STATUS Car_SM_Update(void)
 			case Start_state:  
 				               Us_Trigger();							   
   ec:	0e 94 33 06 	call	0xc66	; 0xc66 <Us_Trigger>
-				               softwareDelayMs(50); 
+				               softwareDelayMs(50); //to make sure distance calculated and for motor response 
   f0:	62 e3       	ldi	r22, 0x32	; 50
   f2:	70 e0       	ldi	r23, 0x00	; 0
   f4:	80 e0       	ldi	r24, 0x00	; 0
@@ -221,7 +221,7 @@ ERROR_STATUS Car_SM_Update(void)
  10a:	31 05       	cpc	r19, r1
  10c:	28 f0       	brcs	.+10     	; 0x118 <Car_SM_Update+0x58>
 							   {
-								   Steering_SteerCar(CAR_FORWARD, 40);
+								   Steering_SteerCar(CAR_FORWARD, 40); // go forward with speed 40%
  10e:	68 e2       	ldi	r22, 0x28	; 40
  110:	8e 2d       	mov	r24, r14
  112:	0e 94 78 04 	call	0x8f0	; 0x8f0 <Steering_SteerCar>
@@ -246,11 +246,11 @@ ERROR_STATUS Car_SM_Update(void)
 							  break;
 							  							 
 			case Back_state: 
-							   Steering_SteerCar(CAR_BACKWARD, 40);
+							   Steering_SteerCar(CAR_BACKWARD, 40); // go backward with speed 40%
  126:	68 e2       	ldi	r22, 0x28	; 40
  128:	8f 2d       	mov	r24, r15
  12a:	0e 94 78 04 	call	0x8f0	; 0x8f0 <Steering_SteerCar>
-							   softwareDelayMs(80);
+							   softwareDelayMs(80); //for motor response
  12e:	60 e5       	ldi	r22, 0x50	; 80
  130:	70 e0       	ldi	r23, 0x00	; 0
  132:	80 e0       	ldi	r24, 0x00	; 0
@@ -263,11 +263,11 @@ ERROR_STATUS Car_SM_Update(void)
 
 							  
 			case Right_state: 
-								Steering_SteerCar(CAR_RIGHT, 40);
+								Steering_SteerCar(CAR_RIGHT, 40); // go right with speed 40%
  13e:	68 e2       	ldi	r22, 0x28	; 40
  140:	83 e0       	ldi	r24, 0x03	; 3
  142:	0e 94 78 04 	call	0x8f0	; 0x8f0 <Steering_SteerCar>
-								softwareDelayMs(80);
+								softwareDelayMs(80); //for motor response
  146:	60 e5       	ldi	r22, 0x50	; 80
  148:	70 e0       	ldi	r23, 0x00	; 0
  14a:	80 e0       	ldi	r24, 0x00	; 0

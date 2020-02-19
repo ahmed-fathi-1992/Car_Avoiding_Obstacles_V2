@@ -23,9 +23,9 @@
 
 int main(void)
 {
-	softwareDelayMs(100);
+	softwareDelayMs(100);  //for stabilization
     Car_SM_Init();
-	softwareDelayMs(100);
+	softwareDelayMs(100); //for stabilization
 	
 	while(1)
 	{

@@ -622,27 +622,27 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .debug_frame   0x00000330       0x74 Timer.o
  .debug_frame   0x000003a4       0x70 Us.o
 
-.debug_str      0x00000000      0x63a
+.debug_str      0x00000000      0x68f
  *(.debug_str)
- .debug_str     0x00000000       0xbd CAR_2.o
-                                 0xf1 (size before relaxing)
- .debug_str     0x000000bd       0x77 car_sm.o
-                                0x156 (size before relaxing)
- .debug_str     0x00000134       0x66 DIO.o
+ .debug_str     0x00000000       0xe6 CAR_2.o
                                 0x11a (size before relaxing)
- .debug_str     0x0000019a      0x14a ICU.o
+ .debug_str     0x000000e6       0x77 car_sm.o
+                                0x17f (size before relaxing)
+ .debug_str     0x0000015d       0x92 DIO.o
+                                0x11a (size before relaxing)
+ .debug_str     0x000001ef      0x14a ICU.o
                                 0x24a (size before relaxing)
- .debug_str     0x000002e4      0x128 motor.o
+ .debug_str     0x00000339      0x128 motor.o
                                 0x224 (size before relaxing)
- .debug_str     0x0000040c       0x80 PWM.o
+ .debug_str     0x00000461       0x80 PWM.o
                                 0x1a6 (size before relaxing)
- .debug_str     0x0000048c       0x88 softwareDelay.o
+ .debug_str     0x000004e1       0x88 softwareDelay.o
                                 0x114 (size before relaxing)
- .debug_str     0x00000514       0x26 Steering.o
+ .debug_str     0x00000569       0x26 Steering.o
                                 0x133 (size before relaxing)
- .debug_str     0x0000053a       0xd1 Timer.o
+ .debug_str     0x0000058f       0xd1 Timer.o
                                 0x209 (size before relaxing)
- .debug_str     0x0000060b       0x2f Us.o
+ .debug_str     0x00000660       0x2f Us.o
                                 0x18e (size before relaxing)
 
 .debug_loc      0x00000000     0x17de
