@@ -26,9 +26,11 @@
 */
 ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 {
+	uint8_t Ret = E_OK;
+	
 	if (DIO_info == NULL)
 	{
-		return E_NOK;
+		Ret = E_NOK;
 	}else
 	{
 		switch (DIO_info->GPIO)
@@ -50,11 +52,11 @@ ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 			PORTD_DIR = PORTD_DIR |(DIO_info->pins  & DIO_info->dir);
 			break;
 			default:
-			return E_NOK;
+			Ret = E_NOK;
 			break;
-		}	
-	}
-	return E_OK;
+		}// end of switch	
+	}// end of else
+	return Ret ;
 }
 
 
@@ -86,6 +88,8 @@ ERROR_STATUS DIO_init (DIO_Cfg_s *DIO_info)
 */
 ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 {
+	uint8_t Ret = E_OK;
+	
 		switch (GPIO)
 		{
 			case GPIOA:
@@ -105,11 +109,11 @@ ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 			PORTD_DATA = PORTD_DATA |(pins  & value);
 			break;
 			default:
-			return E_NOK;
+			Ret = E_NOK;
 			break;
-		}
+		}// end of switch
 		
-		return E_OK;	
+	 return Ret ;	
 	
 }
 
@@ -141,9 +145,11 @@ ERROR_STATUS DIO_Write (uint8_t GPIO, uint8_t pins, uint8_t value)
 */
 ERROR_STATUS DIO_Read (uint8_t GPIO,uint8_t pins, uint8_t *data)
 {
+	uint8_t Ret = E_OK;
+	
 	if (data == NULL)
 	{
-		return E_NOK;
+		Ret = E_NOK;
 	}else
 	{		switch (GPIO)
 		{
@@ -176,12 +182,13 @@ ERROR_STATUS DIO_Read (uint8_t GPIO,uint8_t pins, uint8_t *data)
 			break;
 			
 			default:
-			return E_NOK;
+			Ret = E_NOK;
 			break;
-		}
+		}// end of switch
 		
-	}
-		return E_OK;
+	}// end of else
+
+return Ret ;
 	
 	
 }
@@ -211,6 +218,8 @@ ERROR_STATUS DIO_Read (uint8_t GPIO,uint8_t pins, uint8_t *data)
 */
 ERROR_STATUS DIO_Toggle (uint8_t GPIO, uint8_t pins)
 {
+	uint8_t Ret = E_OK;
+	
 		switch (GPIO)
 		{
 			case GPIOA:
@@ -226,9 +235,9 @@ ERROR_STATUS DIO_Toggle (uint8_t GPIO, uint8_t pins)
 			PORTD_DATA = PORTD_DATA ^ (pins);
 			break;
 			default:
-			return E_NOK;
+			Ret = E_NOK;
 			break;
-		}
+		}// end of switch
 		
-		return E_OK;
+	return Ret ;
 }

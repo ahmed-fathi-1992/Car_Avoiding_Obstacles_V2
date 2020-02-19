@@ -41,46 +41,48 @@ ERROR_STATUS Car_SM_Init(void)
 */
 ERROR_STATUS Car_SM_Update(void)
 {
-	uint16_t Distance=0;
-	Car_states state = Start_state;
+	uint16_t U16_Distance=0;
+	uint8_t  U8_state = Start_state;
 
-	while(1){
-		switch(state) {
-			case Start_state:  {
-				               Us_Trigger();
+  while(1){
+		   switch(U8_state) {
+			case Start_state:  
+				               Us_Trigger();							   
 				               softwareDelayMs(50); 
-							   Us_GetDistance(& Distance);
-							   ICR1H=(uint8_t)Distance	;
-							   if (Distance>50)
+							   Us_GetDistance(& U16_Distance);
+							  // ICR1H=(uint8_t)U16_Distance; //for debugging 
+							   if (U16_Distance>50)
 							   {
-								   Steering_SteerCar(CAR_FORWARD, 70);
+								   Steering_SteerCar(CAR_FORWARD, 40);
 							   }else
 							   {
-								   if (Distance<=50 && Distance>30  )
+								   if (U16_Distance<=50 && U16_Distance>30  )
 								   {
-										state = Right_state;
+										U8_state = Right_state;
 								   }else
 								   {
-									   state = Back_state; 
+									   U8_state = Back_state; 
 								   }
 								   
 							   }
  
 							  break;
-							 }
-			case Back_state: {
-							   Steering_SteerCar(CAR_BACKWARD, 80);
+							  							 
+			case Back_state: 
+							   Steering_SteerCar(CAR_BACKWARD, 40);
 							   softwareDelayMs(80);
-				               state=Start_state; 
+				               U8_state = Start_state; 
 							   break;
-							  }
-			case Right_state: {
-								Steering_SteerCar(CAR_RIGHT, 80);
+
+							  
+			case Right_state: 
+								Steering_SteerCar(CAR_RIGHT, 40);
 								softwareDelayMs(80);
-								state=Start_state;
+								U8_state = Start_state;
 							    break;
-							  }				
+							  				
 		}//end of switch.
+		
 	}//end of while
 		
 	

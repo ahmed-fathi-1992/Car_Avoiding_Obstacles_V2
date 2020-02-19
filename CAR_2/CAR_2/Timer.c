@@ -43,9 +43,10 @@ static uint8_t  gu8_Timer2_Prescaler= T2_NO_CLOCK;
  */
 ERROR_STATUS Timer_Init(Timer_cfg_s* Timer_cfg)
 {
+	uint8_t Ret = E_OK;
 	if (Timer_cfg == NULL)
 	{
-	  return E_NOK;
+	  Ret = E_NOK;
 	}else
 	{
 	   switch (Timer_cfg->Timer_CH)
@@ -60,11 +61,11 @@ ERROR_STATUS Timer_Init(Timer_cfg_s* Timer_cfg)
 	       return Timer2_Init( Timer_cfg);
 		   break;
 		   default:
-		   return E_NOK;
+		   Ret = E_NOK;
 		   break;
-		}
-	}
-	return E_NOK;
+		}//end of switch.
+	}//end of else
+	return Ret ;
 }
 
 /**
@@ -79,6 +80,7 @@ ERROR_STATUS Timer_Init(Timer_cfg_s* Timer_cfg)
  */
 ERROR_STATUS Timer_Start(uint8_t Timer_CH_NO, uint16_t Timer_Count)
 {
+	uint8_t Ret = E_OK;
 		switch (Timer_CH_NO)
 		{
 			case TIMER_0:
@@ -97,11 +99,11 @@ ERROR_STATUS Timer_Start(uint8_t Timer_CH_NO, uint16_t Timer_Count)
 			break;
 			
 			default:
-			return E_NOK;
+			Ret = E_NOK;
 			break;
-		}
+		}//end of switch.
 	
-return E_OK;	
+return Ret ;	
 }
 
 /**
@@ -115,6 +117,7 @@ return E_OK;
  */
 ERROR_STATUS Timer_Stop(uint8_t Timer_CH_NO)
 {
+	uint8_t Ret = E_OK;
 		switch (Timer_CH_NO)
 		{
 			case TIMER_0:
@@ -130,11 +133,11 @@ ERROR_STATUS Timer_Stop(uint8_t Timer_CH_NO)
 			break;
 			
 			default:
-			return E_NOK;
+			Ret = E_NOK;
 			break;
-		}
+		}//end of switch.
 		
-		return E_OK;	
+		return Ret ;	
 }
 
 /**
@@ -149,9 +152,10 @@ ERROR_STATUS Timer_Stop(uint8_t Timer_CH_NO)
  */
 ERROR_STATUS Timer_GetStatus(uint8_t Timer_CH_NO, uint8_t* Data)
 {
+	uint8_t Ret = E_OK;
 	if (Data == NULL)
 	{
-		return E_NOK;
+		Ret = E_NOK;
 	}else
 	{
 		switch (Timer_CH_NO)
@@ -169,11 +173,13 @@ ERROR_STATUS Timer_GetStatus(uint8_t Timer_CH_NO, uint8_t* Data)
 			break;
 			
 			default:
-			return E_NOK;
+			Ret = E_NOK;
 			break;
-		}
-	}
-		return E_OK;	
+		}//end of switch
+		
+	}//end of else
+	
+		return Ret ;	
 }
 
 /**
@@ -188,9 +194,11 @@ ERROR_STATUS Timer_GetStatus(uint8_t Timer_CH_NO, uint8_t* Data)
  */
 ERROR_STATUS Timer_GetValue(uint8_t Timer_CH_NO, uint16_t* Data)
 {
+	uint8_t Ret = E_OK;
+	
 	if (Data == NULL)
 	{
-		return E_NOK;
+		Ret = E_NOK;
 	}else
 	{	
 		switch (Timer_CH_NO)
@@ -208,11 +216,11 @@ ERROR_STATUS Timer_GetValue(uint8_t Timer_CH_NO, uint16_t* Data)
 			break;
 			
 			default:
-			return E_NOK;
+			Ret = E_NOK;
 			break;
-		}
-	}
-		return E_OK;	
+		}//end of switch
+	}//end of else
+		return Ret ;	
 }
 
 
@@ -228,6 +236,8 @@ ERROR_STATUS Timer_GetValue(uint8_t Timer_CH_NO, uint16_t* Data)
  */
 ERROR_STATUS Timer_SetValue(uint8_t Timer_CH_NO, uint16_t Data)
 {
+	uint8_t Ret = E_OK;
+	
 		switch (Timer_CH_NO)
 		{
 			case TIMER_0:
@@ -243,11 +253,11 @@ ERROR_STATUS Timer_SetValue(uint8_t Timer_CH_NO, uint16_t Data)
 			break;
 			
 			default:
-			return E_NOK;
+			Ret =  E_NOK;
 			break;
-		}
+		}//end of switch
 		
-		return E_OK;
+		return Ret ;
 }
 
 /**
@@ -262,6 +272,8 @@ ERROR_STATUS Timer_SetValue(uint8_t Timer_CH_NO, uint16_t Data)
 
 static ERROR_STATUS Timer0_Init(Timer_cfg_s* Timer_cfg)
 {
+	uint8_t Ret = E_OK;
+	
 			   	switch (Timer_cfg->Timer_Mode)
 			   	{
 				   	case TIMER_MODE:
@@ -287,20 +299,20 @@ static ERROR_STATUS Timer0_Init(Timer_cfg_s* Timer_cfg)
 					   	gu8_Timer0_Prescaler=  T0_PRESCALER_1024 ; 
 					   	break;
 					   	default:
-					   	return E_NOK;
+					   	Ret = E_NOK;
 					   	break;
-				   	}// end of Timer_cfg->Timer_Prescaler				   	
+				   	}//end of switch ( end of Timer_cfg->Timer_Prescaler	)			   	
 				   	break;// end of Timer_mode
 				   	
 				   	case COUNTER_RISING_MODE:
-				   	TCCR0= TCCR0 | T0_Ex_CLOCK_RISING_EDGE ;
-					gu8_Timer0_Prescaler= T0_Ex_CLOCK_RISING_EDGE;    
+				   	TCCR0= TCCR0 | T0_Ex_CLOCK_RISING_EDGE ;  // configure timer as counter mode on rising edge
+					gu8_Timer0_Prescaler= T0_Ex_CLOCK_RISING_EDGE;  // save timer prescaler configuration to be set later on start function
 				   	break;// end of COUNTER_RISING_MODE
 					   
 				   	default:
-				   	return E_NOK;
+				   	Ret = E_NOK;
 				   	break;
-			   	} // end of Timer_cfg->Timer_Mode
+			   	} // end of switch (Timer_cfg->Timer_Mode)
 			   	
 			   	/////
 			   	
@@ -315,10 +327,10 @@ static ERROR_STATUS Timer0_Init(Timer_cfg_s* Timer_cfg)
 				   	break;
 					   
 				   	default:
-				   	return E_NOK;
+				   	Ret = E_NOK;
 				   	break;
 			   	}	
-	return E_OK;
+	return Ret ;
 	
 }
 
@@ -334,6 +346,7 @@ static ERROR_STATUS Timer0_Init(Timer_cfg_s* Timer_cfg)
 
 static ERROR_STATUS Timer1_Init(Timer_cfg_s* Timer_cfg)
 {
+	uint8_t Ret = E_OK;
 			   	switch (Timer_cfg->Timer_Mode)
 			   	{
 				   	case TIMER_MODE:
@@ -358,8 +371,9 @@ static ERROR_STATUS Timer1_Init(Timer_cfg_s* Timer_cfg)
 					   	case TIMER_PRESCALER_1024:
 					   	gu16_Timer1_Prescaler= T1_PRESCALER_1024 ;
 					   	break;
+						   
 					   	default:
-					   	return E_NOK;
+					   	Ret = E_NOK;
 					   	break;
 				   	}// end of Timer_cfg->Timer_Prescaler
 				   	break;// end of Timer_mode
@@ -368,10 +382,11 @@ static ERROR_STATUS Timer1_Init(Timer_cfg_s* Timer_cfg)
 				   	TCCR1= TCCR1 | T1_Ex_CLOCK_RISING_EDGE ;
 					gu16_Timer1_Prescaler= T1_Ex_CLOCK_RISING_EDGE;
 				   	break;
+					   
 				   	default:
-				   	return E_NOK;
+				   	Ret = E_NOK;
 				   	break;
-			   	} // end of Timer_cfg->Timer_Mode
+			   	} // end of switch ( Timer_cfg->Timer_Mode)
 			   	
 			   	/////
 			   	
@@ -380,16 +395,18 @@ static ERROR_STATUS Timer1_Init(Timer_cfg_s* Timer_cfg)
 				   	case TIMER_POLLING_MODE:
 				   	TIMSK = TIMSK | T1_POLLING;//Disable  interrupt 
 				   	break;
+					   
 				   	case TIMER_INTERRUPT_MODE:
 				   	TIMSK = TIMSK | T1_INTERRUPT_NORMAL;// enable interrupt
 				   	break;
+					   
 				   	default:
-				   	return E_NOK;
+				   	Ret = E_NOK;
 				   	break;
 			   	}
 			   	
 		   
-	return E_OK;
+	return Ret ;
 	
 }
 
@@ -405,6 +422,7 @@ static ERROR_STATUS Timer1_Init(Timer_cfg_s* Timer_cfg)
 
 static ERROR_STATUS Timer2_Init(Timer_cfg_s* Timer_cfg)
 {
+	uint8_t Ret = E_OK;
 		       switch (Timer_cfg->Timer_Mode)
 		       {
 			       case TIMER_MODE:
@@ -435,34 +453,39 @@ static ERROR_STATUS Timer2_Init(Timer_cfg_s* Timer_cfg)
 					       case TIMER_PRESCALER_1024:
 					       gu8_Timer2_Prescaler= T2_PRESCALER_1024 ;
 					       break;
+						   
 					       default:
-					       return E_NOK;
+					       Ret = E_NOK;
 					       break;
-				       }// end of Timer_cfg->Timer_Prescaler
+				       }// end of switch (Timer_cfg->Timer_Prescaler)
 					   			       
 			       break; // end of Timer_mode
 				   
 			       case COUNTER_RISING_MODE:
-				   return E_NOK;
+				   Ret = E_NOK;
 			       break;
 				   
 			       default:
-			       return E_NOK;
+			       Ret = E_NOK;
 			       break;
-		       } // end of Timer_cfg->Timer_Mode
+		       } // end of switch (Timer_cfg->Timer_Mode)
+
+/////////////  configur  interrupt //////////////////
 		       	       
 		       switch (Timer_cfg->Timer_Polling_Or_Interrupt)
 		       {
 			       case TIMER_POLLING_MODE:
 			       TIMSK = TIMSK | T2_POLLING; //Disable  interrupt
 			       break;
+				   
 			       case TIMER_INTERRUPT_MODE:
 			       TIMSK = TIMSK | T2_INTERRUPT_CMP; // enable interrupt
 			       break;
+				   
 			       default:
-			       return E_NOK;
+			       Ret = E_NOK;
 			       break;
-		       }
+		       }// end of switch
 	
-	return E_OK;
+	return Ret ;
 }

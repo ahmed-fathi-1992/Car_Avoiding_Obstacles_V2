@@ -26,6 +26,8 @@
  */
  ERROR_STATUS Motor_Init(uint8_t Motor_Number)
  {
+	 uint8_t Ret = E_OK;
+	 
 	 Pwm_Cfg_s   Pwm_Cfg_PWM_CH1A	= {PWM_CH1A,PWM_PRESCALER_256};
  	 Pwm_Cfg_s   Pwm_Cfg_PWM_CH1B	= {PWM_CH1B,PWM_PRESCALER_256};
 	  
@@ -52,11 +54,11 @@
 			break;
 
 			default:
-			return E_NOK;
+			Ret = E_NOK;
 			break;
 		}
 		
-	return E_OK;		 
+	return Ret ;		 
 	 
  }
  
@@ -76,6 +78,8 @@
 ERROR_STATUS Motor_Direction (uint8_t Motor_Number, uint8_t Mot_Direction)
 {
 
+    uint8_t Ret = E_OK;
+
 switch (Motor_Number)
 {
 	//////////motor1///////////
@@ -94,7 +98,9 @@ switch (Motor_Number)
         DIO_Write (MOTOR_OUT_1A_GPIO, MOTOR_OUT_1A_PIN, LOW);
         DIO_Write (MOTOR_OUT_1B_GPIO, MOTOR_OUT_1B_PIN, HIGH);
 		break;
+		
 		default:
+		Ret = E_NOK;
 		break;
 	}
 	break;
@@ -115,17 +121,19 @@ switch (Motor_Number)
 		DIO_Write (MOTOR_OUT_2A_GPIO, MOTOR_OUT_2A_PIN, LOW);
 		DIO_Write (MOTOR_OUT_2B_GPIO, MOTOR_OUT_2B_PIN, HIGH);
 		break;
+		
 		default:
+		Ret = E_NOK;
 		break;
 	}
 	break;
 	
 	default:
-	return E_NOK;
+	Ret = E_NOK ;
 	break;	
 }
 
-	return E_OK;	
+	return Ret ;	
 	
 }
 
@@ -142,7 +150,8 @@ switch (Motor_Number)
 */
 ERROR_STATUS Motor_Start(uint8_t Motor_Number, uint8_t Mot_Speed)
 {
-
+ uint8_t Ret = E_OK;
+ 
 switch (Motor_Number)
 {
 	//////////motor1///////////
@@ -156,11 +165,11 @@ switch (Motor_Number)
 	break;
 	
 	default:
-	return E_NOK;
+	Ret = E_NOK;
 	break;
 	
 }
-	return E_OK;
+	return Ret ;
 }
 
 /**
@@ -176,6 +185,8 @@ switch (Motor_Number)
 */
 ERROR_STATUS Motor_SpeedUpdate(uint8_t Motor_Number, uint8_t Speed)
 {
+	uint8_t Ret = E_OK;
+	
 switch (Motor_Number)
 {
 	//////////motor1///////////
@@ -191,11 +202,11 @@ switch (Motor_Number)
 	break;
 	
 	default:
-	return E_NOK;
+	Ret = E_NOK;
 	break;
 	
 }
-return E_OK;	
+return Ret ;	
 	
 }
 
@@ -210,6 +221,7 @@ return E_OK;
 */
 ERROR_STATUS Motor_Stop(uint8_t Motor_Number)
 {
+	uint8_t Ret = E_OK;
 switch (Motor_Number)
 {
 	//////////motor1///////////
@@ -223,11 +235,11 @@ switch (Motor_Number)
 	break;
 	
 	default:
-	return E_NOK;
+	Ret = E_NOK;
 	break;
 	
 }
-return E_OK;	
+return Ret ;	
 	
 }
 
@@ -243,7 +255,8 @@ return E_OK;
  */
  ERROR_STATUS Motor_GetStatus(uint8_t Motor_Number, uint8_t* Mot_status)
  {
-
+	 
+// not used function 
 	return E_OK;	 
 	 
  }

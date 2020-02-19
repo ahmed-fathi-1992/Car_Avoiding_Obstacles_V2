@@ -5,17 +5,11 @@
  *  Author: FATHI
  */ 
 
-
-
-
-
 /************************************************************************/
 /*				               Includes                                 */
 /************************************************************************/
 
 #include "ICU.h"
-
-
 
 /************************************************************************/
 /*		        ICU  static FUNCTIONS' PROTOTYPES		        */
@@ -28,9 +22,9 @@ static void SwICU_SetCfgEdge(uint8_t a_en_inputCaptureEdgeedge);
 /*                GLOBAL STATIC VARIABLES                           */
 /************************************************************************/
 
-static volatile uint8_t  gu8_ICU_R_TO_R= 0;
-static volatile uint8_t  gu8_ICU_R     = 0;
-static volatile uint8_t   gu8_INT_Edge   = SwICU_EdgeRisiging;
+static volatile uint8_t  gu8_ICU_R_TO_R = 0;
+static volatile uint8_t  gu8_ICU_R      = 0;
+static volatile uint8_t  gu8_INT_Edge   = SwICU_EdgeRisiging;
 
 //static uint8_t  gu8_Timer2_Prescaler= T2_NO_CLOCK;
 
@@ -52,22 +46,26 @@ static volatile uint8_t   gu8_INT_Edge   = SwICU_EdgeRisiging;
  **************************************************************************/
 ERROR_STATUS Icu_Init(Icu_cfg_s * Icu_Cfg)
 {
+	uint8_t Ret = E_OK;
+	
 	Timer_cfg_s Str_Timer0_cfg = {TIMER_0,TIMER_MODE,TIMER_PRESCALER_1024,TIMER_POLLING_MODE};
 	Timer_cfg_s Str_Timer2_cfg = {TIMER_2,TIMER_MODE,TIMER_PRESCALER_1024,TIMER_POLLING_MODE};	
 		
 	DIO_Cfg_s 	Str_DIO_Cfg_INT2 = {GPIOB,PIN2,INPUT};
+		
 	if (Icu_Cfg == NULL)
 	{
-		return E_NOK;
+		Ret = E_NOK;
 	}else
 	{			
 		switch (Icu_Cfg->ICU_Ch_No)
 		{
 			case ICU_CH0:
-			return E_NOK;
-			break;			
+			Ret = E_NOK;
+			break;	
+					
 			case ICU_CH1:	
-			return E_NOK;		
+			Ret = E_NOK;		
 			break;
 			
 			case ICU_CH2:
@@ -79,7 +77,7 @@ ERROR_STATUS Icu_Init(Icu_cfg_s * Icu_Cfg)
 	            		break;
 						
 	            		case ICU_TIMER_CH1:
-	            		return E_NOK;
+	            		Ret = E_NOK;
 	            		break;
 	            		
 	            		case ICU_TIMER_CH2:
@@ -88,7 +86,7 @@ ERROR_STATUS Icu_Init(Icu_cfg_s * Icu_Cfg)
 	            		break;
 	            		
 	            		default:
-	            		return E_NOK;
+	            		Ret = E_NOK;
 	            		break;
             		}
 					DIO_init (&Str_DIO_Cfg_INT2); //configure the external interrupt T2 PIN to be INPUT
@@ -98,11 +96,12 @@ ERROR_STATUS Icu_Init(Icu_cfg_s * Icu_Cfg)
 			break;
 			
 			default:
-			return E_NOK;
+			Ret = E_NOK;
 			break;
 		}
 	}
-		return E_OK;
+	
+	return Ret ;
 			
 	
 }
@@ -128,19 +127,21 @@ ERROR_STATUS Icu_Init(Icu_cfg_s * Icu_Cfg)
  ***************************************************************************/
 ERROR_STATUS Icu_ReadTime(uint8_t Icu_Channel, uint8_t Icu_EdgeToEdge, uint32_t * Icu_Time)
 {
+	uint8_t Ret = E_OK;
+	
 	if (Icu_Time == NULL)
 	{
-		return E_NOK;
+		Ret = E_NOK;
 	}else
 	{
 		switch (Icu_Channel)
 		{
 			case ICU_CH0:
-			return E_NOK;
+			Ret = E_NOK;
 			break;
 			
 			case ICU_CH1:
-			return E_NOK;
+			Ret = E_NOK;
 			break;
 			
 			case ICU_CH2:
@@ -159,22 +160,22 @@ ERROR_STATUS Icu_ReadTime(uint8_t Icu_Channel, uint8_t Icu_EdgeToEdge, uint32_t 
 				break;
 				
 				default:
-				return E_NOK;
+				Ret = E_NOK;
 				break;
 			}
 			
 			default:
-			return E_NOK;
+			Ret = E_NOK;
 			break;
 			
 		}
 	}
-      return E_OK;	
+      return Ret ;	
 }
 
 
 static void SwICU_SetCfgEdge(uint8_t a_en_inputCaptureEdgeedge)
-{
+{	
 	switch (a_en_inputCaptureEdgeedge)
 	{
 		case SwICU_EdgeRisiging:
@@ -200,15 +201,15 @@ ISR(INT2_vector)
 	switch (gu8_INT_Edge)
 	{
 		case SwICU_EdgeRisiging:
-		gu8_ICU_R_TO_R = TCNT2;
+		gu8_ICU_R_TO_R = TCNT2;  //  Rising to  Rising timer ticks  
 		TCNT2=0;
 		SwICU_SetCfgEdge( SwICU_EdgeFalling);// set edge to Falling
 		gu8_INT_Edge=SwICU_EdgeFalling;
 		break;
 		
 		case SwICU_EdgeFalling:
-		gu8_ICU_R = TCNT2;
-		ICR1L=gu8_ICU_R	;	
+		gu8_ICU_R = TCNT2;  //  Rising to  Falling timer ticks
+		//ICR1L=gu8_ICU_R	; // for debugging	
 		SwICU_SetCfgEdge( SwICU_EdgeRisiging);// set edge to rising
 		gu8_INT_Edge=SwICU_EdgeRisiging;
 		break;
@@ -218,3 +219,6 @@ ISR(INT2_vector)
 	}
 	
 }
+
+
+	

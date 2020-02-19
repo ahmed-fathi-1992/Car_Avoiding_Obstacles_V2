@@ -15,11 +15,18 @@
 #include "Steering.h"
 #include "Us.h"
 
+/************************************************************************/
+/*						    defines                               */
+/************************************************************************/
 
+#define Start_state   0
+#define Back_state    1
+#define Right_state   2
+/*
 typedef enum{
 	Start_state=0,Back_state,Right_state
 }Car_states;
-
+*/
 /*************************************************************/
 /*                     FUNCTIONS DECLARATION                 */
 /*************************************************************/

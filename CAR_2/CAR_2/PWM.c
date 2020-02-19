@@ -36,18 +36,19 @@ static uint16_t  gu16_PWM_CH1B_Prescaler= T1_NO_CLOCK;
 /*********************************************************************************/
 extern ERROR_STATUS Pwm_Init(Pwm_Cfg_s *Pwm_Cfg)
 {
+	uint8_t Ret = E_OK;
 	DIO_Cfg_s 	DIO_Cfg_PWM_CH1A = {GPIOD,PIN5,OUTPUT};
 	DIO_Cfg_s 	DIO_Cfg_PWM_CH1B = {GPIOD,PIN4,OUTPUT};	
 		
 	if (Pwm_Cfg == NULL)
 	{
-		return E_NOK;
+		Ret = E_NOK;
 	}else
 	{		
 		switch (Pwm_Cfg->Channel)
 		{
 			case PWM_CH0:
-			return E_NOK;
+			Ret = E_NOK;
 			break;
 			
 			case PWM_CH1A:
@@ -69,9 +70,9 @@ extern ERROR_STATUS Pwm_Init(Pwm_Cfg_s *Pwm_Cfg)
 					   	gu16_PWM_CH1A_Prescaler = T1_PRESCALER_1024 ;
 					   	break;
 					   	default:
-					   	return E_NOK;
+					   	Ret = E_NOK;
 					   	break;
-				   	}// end of Pwm_Cfg->Prescaler
+				   	}// end of switch (Pwm_Cfg->Prescaler)
 					   
 					TCCR1= TCCR1 | T1_Fast_PWM_8_bit; //set PWM mode
 					
@@ -99,9 +100,9 @@ extern ERROR_STATUS Pwm_Init(Pwm_Cfg_s *Pwm_Cfg)
 					   	gu16_PWM_CH1B_Prescaler = T1_PRESCALER_1024 ;
 					   	break;
 					   	default:
-					   	return E_NOK;
+					   	Ret = E_NOK;
 					   	break;
-				   	}// end of Pwm_Cfg->Prescaler
+				   	}// end of  switch (Pwm_Cfg->Prescaler)
 					   
 					TCCR1= TCCR1 | T1_Fast_PWM_8_bit; //set PWM mode
 									
@@ -111,15 +112,15 @@ extern ERROR_STATUS Pwm_Init(Pwm_Cfg_s *Pwm_Cfg)
 			break;
 			
 			case PWM_CH2:
-			return E_NOK;
+			Ret = E_NOK;
 			break;
 			
 			default:
-			return E_NOK;
+			Ret = E_NOK;
 			break;
-		}
-     }
-		return E_OK;	
+		}// end of switch
+     }// end of else
+		return Ret ;	
 	
 }
 
@@ -156,11 +157,12 @@ extern ERROR_STATUS Pwm_Init(Pwm_Cfg_s *Pwm_Cfg)
 /*********************************************************************************/
 extern ERROR_STATUS Pwm_Start(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
 {
+	uint8_t Ret = E_OK;
 	
 	switch (Channel)
 	{
 		case PWM_CH0:
-		return E_NOK;
+		Ret = E_NOK;
 		break;
 		
 		case PWM_CH1A:
@@ -174,14 +176,15 @@ extern ERROR_STATUS Pwm_Start(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
 		break;
 		
 		case PWM_CH2:
-		return E_NOK;
+		Ret = E_NOK;
 		break;
+		
 		default:
-		return E_NOK;
+		Ret = E_NOK;
 		break;
-	}
+	}// end of switch
 	
-	return E_OK;	
+	 return Ret ;	
 }
 
 /*********************************************************************************/
@@ -194,10 +197,11 @@ extern ERROR_STATUS Pwm_Start(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
 /*********************************************************************************/
 extern ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
 {
+	uint8_t Ret = E_OK;
 	switch (Channel)
 	{
 		case PWM_CH0:
-		return E_NOK;
+		Ret = E_NOK;
 		break;
 		
 		case PWM_CH1A:
@@ -209,14 +213,15 @@ extern ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
 		break;
 		
 		case PWM_CH2:
-		return E_NOK;
+		Ret = E_NOK;
 		break;
+		
 		default:
-		return E_NOK;
+		Ret = E_NOK;
 		break;
-	}
+	}// end of switch
 	
-	return E_OK;	
+	return Ret ;	
 }
 
 /*********************************************************************************/
@@ -230,10 +235,12 @@ extern ERROR_STATUS Pwm_Update(uint8_t Channel,uint8_t Duty,uint32_t Frequncy)
 /*********************************************************************************/
 extern ERROR_STATUS Pwm_Stop(uint8_t Channel)
 {
+	uint8_t Ret = E_OK;
+	
 	switch (Channel)
 	{
 		case PWM_CH0:
-		return E_NOK;
+		Ret = E_NOK;
 		break;
 		
 		case PWM_CH1A:
@@ -245,12 +252,13 @@ extern ERROR_STATUS Pwm_Stop(uint8_t Channel)
 		break;
 		
 		case PWM_CH2:
-		return E_NOK;
+		Ret = E_NOK;
 		break;
+		
 		default:
-		return E_NOK;
+		Ret = E_NOK;
 		break;
-	}
+	}// end of switch
 	
-	return E_OK;	
+	return Ret ;	
 }

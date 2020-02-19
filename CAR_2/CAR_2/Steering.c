@@ -46,6 +46,7 @@ ERROR_STATUS Steering_Init(void)
  */
 ERROR_STATUS Steering_SteerCar(uint8_t Steering_CarCmd, uint8_t speed)
 {
+	uint8_t Ret = E_OK;
 switch (Steering_CarCmd)
 {
 	case CAR_STOP:
@@ -74,14 +75,16 @@ switch (Steering_CarCmd)
 	break;
 	
 	default:
-	return E_NOK;
+	Ret = E_NOK;
 	break;
 	
 }
 
-// Motor_SpeedUpdate(MOTOR_1,speed);
-// Motor_SpeedUpdate(MOTOR_2,speed);
-return E_OK;	
+Motor_SpeedUpdate(MOTOR_1,speed);
+
+Motor_SpeedUpdate(MOTOR_2,speed);
+
+return Ret ;	
 	
 }
 
